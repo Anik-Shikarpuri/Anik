@@ -1,5 +1,5 @@
 # Anik Shikarpuri
-# PROFESSIONAL SUMMARY 
+#### PROFESSIONAL SUMMARY 
 
 # A determined, confident, and eager to learn Computer Data Science student, seeking an internship that offers hands-on experience in the Computer Engineering, Computational Data Science, Computer Science, or Cyber Security field.
 
