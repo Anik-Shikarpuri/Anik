@@ -1,0 +1,170 @@
+---
+title: "Homework 2"
+author: "Anik Shikarpuri"
+date: 1/29/2023
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### Instructions
+
+  - The assignment must be submitted via Canvas.  
+  - (2 pts) You should submit a HTML output file called `yourname_act2.nb.html`. 
+
+#### 1. (2 pts) Setting working directory
+STAT184 - hw2 - hw2.R
+              - hw2.Rmd
+              - hw2.nb.html
+              
+
+
+```{r}
+setwd("~/Desktop/stat184/Homework2")
+getwd()
+
+
+```
+
+
+### 2. Your cell phone bill varies from month to month.
+
+#### a) 
+```{r}
+bill <- c(46,33,39,37,46,30,48,32,49,35,30,48)
+bill
+
+
+
+```
+#### b) 
+```{r}
+annual_total= sum(bill)
+ annual_total
+```
+#### c)
+```{r}
+smallest_amount=min(bill)
+print(smallest_amount)
+```
+#### d)
+```{r}
+largest_month=max(bill)
+largest_month
+```
+#### e)
+```{r}
+diff(bill)
+
+```
+#### so this tells the user how much money was spent compared to the month after it. So, In Jan, 13 dollars more were spent than Feb, hence the value being negative. Some other months that were negative (expensive) were MARCH, MAY,JULY, SEPTEMBER, AND NOVEMBER
+
+
+### 3. Lists
+```{r}
+list1 <- list(1:2, 1:4, c("A", "B", "C")); list1
+names(list1) <- c("a", "b", "c"); list1
+typeof(list1)  # check the type of my object list1
+```
+#### a) 
+```{r}
+list1[[1]] <- 1:5
+list1
+```
+#### b) 
+
+```{r}
+list1[[2]][3] <- 16
+list1
+```
+#### c)
+```{r}
+list1[[3]] <- c(list1[[3]], "d")
+list1
+```
+
+#### d)
+```{r}
+names(list1)[1] <- "A"
+list1
+```
+
+### 4. Basic operations with the iris data
+
+```{r}
+data(iris)
+
+```
+
+#### a)
+```{r}
+str(iris)
+```
+#### b)
+```{r}
+head(iris)
+tail(iris)
+```
+#### c)
+```{r}
+max(iris$Petal.Length)
+min(iris$Petal.Length)
+mean(iris$Petal.Length)
+sd(iris$Petal.Length)
+```
+
+#### d)
+```{r}
+iris$Petal.Length[130]
+
+
+
+```
+
+#### e)
+```{r}
+iris$Petal.Length[130] <- 0
+# finish question
+```
+
+
+### 5) Working with two vectors
+
+#### a)
+```{r}
+x <- iris$Sepal.Length
+y <- iris$Sepal.Width
+
+x.bar <- mean(x)
+y.bar <- mean(y)
+x.bar
+y.bar
+```
+#### b)
+```{r}
+sum.xy <- sum((x - x.bar) * (y - y.bar))
+sum.xy
+```
+#### c)
+```{r}
+sum.x <- sum((x - x.bar)^2)
+sum.y <- sum((y - y.bar)^2)
+sum.x
+sum.y
+```
+
+#### d)
+```{r}
+r <- sum.xy / sqrt(sum.x * sum.y)
+r
+```
+
+#### e)
+```{r}
+correlation <- cor(x, y)
+correlation 
+```
+

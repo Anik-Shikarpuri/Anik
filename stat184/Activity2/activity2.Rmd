@@ -1,0 +1,82 @@
+---
+title: "Activity 2"
+author: "Anik Shikarpuri"
+date: "2023-01-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Instructions
+
+  - The assignment must be submitted via Canvas.  
+  - (2 pts) You should submit a HTML output file called `yourname_act2.nb.html`. 
+
+### 1. (2 pts) Setting working directory
+
+I recommend that you use the following hierarchical structures (folder and file names can be different):
+```
+STAT184 - Activity1 - activity1.Rmd
+                    - activity1.html
+                    - image.png
+                    
+        - Activity2 - activity2.Rmd
+                    - activity2.nb.html
+                    
+        - Homework1 - hw1.Rmd
+                    - hw1.nb.html
+```
+
+Print your current working directory.
+
+getwd()
+
+### 2. (4 pts) Vectors
+Let our small data set be the following:
+```
+2 5 4 10 8
+```
+
+a. Enter this data into a vector `y`.
+y 
+
+b. Find the square of each number.
+
+c. Subtract 6 from each number.
+
+d. Subtract 9 from each number and then square the answers. 
+
+
+### 3. (4 pts) Using `Help` documentation
+For this question, please use the help documentation by using `?function_name` or `help(function_name)`.
+
+a. Create a vector `x` which contains consecutive numbers from 1 to 10.
+
+
+b. Calculate the cumulative sum of the numbers in `x`. 
+- **Hint**: read the documentation on the `cumsum` function using `?cumsum` or `help(cumsum)`.
+
+
+c. Calculate the cumulative sum of the numbers in `x`, but in reverse order. 
+
+d. Create a vector `y` which contains 5 random numbers between 1 and 10, rounded to the nearest whole number. 
+- **Hint**: read the documentation on `sample`.
+
+
+### 4. (3 pts) Comments
+Please write down comments after `#` to explain each line. 
+```{r}
+x <- rep(c(1,2,3,4,5), times = 2) # create a vector by replicating c(1,2,3,4,5) twice
+x[1]  
+x[length(x)] 
+x[1:3] 
+```
+
+### 5. Reading
+
+Please read Data Computing Ebook Ch1 before you come to next Friday (1/27) class.
+
+Here is the link to [Ch1](https://dtkaplan.github.io/DataComputingEbook/chap-tidy-data.html#chap:tidy-data) or you can find the book on Canvas. 
+

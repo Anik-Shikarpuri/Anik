@@ -1,0 +1,125 @@
+---
+title: "Activity 4"
+author: "Anik Shikarpuri"
+date: 2/11/2023
+output: html_notebook
+---
+
+getwd()
+
+### 1. Minneapolis2013.txt
+
+##### a)
+
+```{r}
+Minneapolis2013 <- read.table(
+'../Data/Minneapolis2013.txt', # name of the file to read
+header = TRUE, # whether the file contains the names of the colums at its first line
+sep = "\t", # separator
+skip = 0 # the number of lines of the data file to skip before beginning to read data
+)
+#See the help menu for details
+?read.table
+head(Minneapolis2013, 3)
+```
+
+#### b)
+
+```{r}
+nrow(Minneapolis2013)
+```
+
+#### c)
+
+```{r}
+x<- Minneapolis2013[1]
+(ux <- unique(x))
+ux
+
+```
+
+#### d)
+
+```{r}
+Besty_sum <- sum(Minneapolis2013$First == "BETSY HODGES")
+Besty_sum
+
+```
+
+#### e)
+
+```{r}
+
+sum(Minneapolis2013$First == "BETSY HODGES" | Minneapolis2013$Second == "undervote" | Minneapolis2013$Third == "BOB FINE")
+
+```
+
+### Question 2)
+
+```{r}
+#install.packages("tidyr")
+library(tidyr)
+data("us_rent_income")
+rent <- us_rent_income[(us_rent_income$variable == "rent"),]
+income <- us_rent_income[(us_rent_income$variable == "income"),]
+
+```
+
+#### a)
+
+```{r}
+US_rent <- read.table("../Data/us_rent_income.csv", sep=",", header=TRUE)
+c <-rent[which(rent$estimate > 1300 & rent$estimate < 1500),]
+c
+
+```
+#### b)
+```{r}
+median_greater <- rent[which(rent$estimate > 1500 | rent$estimate < 500),]
+median_greater
+nrow(median_greater)
+```
+#### c)
+```{r}
+MR <- rent[which(rent$estimate < 2000),]
+nrow(MR)
+MR
+```
+#### d)
+```{r}
+# Check if the state names and their orders are the same in the income and rent data frames.
+identical(rent$NAME, income$NAME)
+
+
+```
+
+#### e)
+```{r}
+# (1 pts) Print the states where median income is less than 30,000 and median rent is greater than 1,000.
+
+
+income[which(income$estimate < 30000 & income$estimate > 1000),]
+
+```
+#### f)
+```{r}
+income1 <- income[which(income$estimate > 35000 | income$estimate < 25000),]
+income1
+any(is.na(income1$estimate))
+```
+#### g)
+```{r}
+rent1 <- rent[ , -which(names(rent) == "GEOID")]
+dim(rent1)
+```
+#### h)
+
+
+```{r}
+exclude_state <- c("Nevada", "New Mexico", "Montana", "Arizona", "Idaho", "Alaska", "Oregon", "Wyoming", "Washington", "Utah", "California", "Colorado", "Hawaii")
+rent_Cent_East <- rent1[which(!rent1$NAME %in% exclude_states),]
+rent_Cent_East
+nrow(rent_Cent_East)
+```
+
+

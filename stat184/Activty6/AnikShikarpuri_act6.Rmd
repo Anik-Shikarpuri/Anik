@@ -1,0 +1,67 @@
+---
+title: "Activity 6"
+author: "Anik Shikarpuri"
+date: 2/26/2023
+output: html_notebook
+---
+
+### 1. Manipulating the diamonds data
+
+#### a)
+
+```{r}
+data("diamonds")
+head(diamonds)
+summary(diamonds)
+?diamonds
+
+#The diamonds dataset has 10 variables and 53,940 observations. The variables include the carat weight, cut, color, clarity, depth, table, price, x (length in mm), y (width in mm), and z (depth in mm) of the diamonds. The variable types include numerical, categorical, and ordinal
+```
+#### b)
+```{r}
+diamonds2 <- diamonds
+diamonds2 <- diamonds2[, -c(8:10)]
+head(diamonds2, 3)
+
+```
+
+
+
+
+#### c)
+```{r}
+
+tabyl(diamonds2, clarity)
+
+```
+
+
+#### d)
+```{r}
+diamonds2$clarity4group <- ifelse(diamonds2$clarity == "I1", "I1",
+ifelse(diamonds2$clarity %in% c("SI1", "SI2"), "S",
+ifelse(diamonds2$clarity %in% c("VS1", "VS2", "VVS1", "VVS2"), "VS",
+ifelse(diamonds2$clarity == "IF", "IF", NA))))
+
+diamonds2$clarity4group <- factor(diamonds2$clarity4group, levels = c("I1", "S", "VS", "IF"), ordered = TRUE)
+
+diamonds2$unit_price <- diamonds2$price / diamonds2$carat
+
+
+str(diamonds2)
+
+
+tabyl(diamonds2, clarity4group)
+
+table(diamonds$clarity)
+
+```
+
+#### e)
+```{r}
+aggregate(cbind(carat, depth, price, unit_price) ~ cut, data = diamonds2, FUN = mean)
+
+```
+
+
+
