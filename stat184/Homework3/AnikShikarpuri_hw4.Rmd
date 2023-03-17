@@ -1,0 +1,119 @@
+---
+title: "Homework 3"
+author: "Anik Shikarpuri"
+date: 2/12/2023
+output: html_notebook
+---
+
+
+#### 1. Create a data frame object
+
+```{r}
+title <- c( "Finding Nemo","Cars", "Casino Royale", "Ford v Ferrari", "Knives Out")
+genre <- c("Animation", "Animation", "Action", "Drama", "Mystery")
+year <- c(2003, 2006, 2006, 2019, 2019)
+rating <- c(7.1, 8.1, 8.0, 8.1, 7.9)
+my_movie <- data.frame(title, genre, year, rating)
+my_movie 
+
+```
+
+#### 2) recipe.txt
+```{r}
+Recipe <- read.table(
+'../Data/recipe.txt', # name of the file to read
+header = TRUE, # whether the file contains the names of the colums at its first line
+sep = "\t", # separator
+skip = 0 # the number of lines of the data file to skip before beginning to read data
+)
+#See the help menu for details
+?read.table
+Recipe
+```
+#### 3) Data cleaning
+##### a)
+```{r}
+pop <- read.table("../Data/world_pop.csv", header=TRUE, skip = 3, sep=",")
+head(pop) ### prints the first few rows
+```
+##### b)
+```{r}
+pop.meta <- read.table("../Data/world_pop_metadata.txt", header = TRUE, sep = " ")
+head(pop.meta)
+
+```
+
+##### c) 
+
+```{r}
+sum(is.na(pop.meta))
+sum(is.na(pop))
+
+
+```
+
+#### d)
+```{r}
+pop1 <- na.omit(pop)
+pop.meta1 <- na.omit(pop.meta)
+
+
+
+```
+#### e)
+```{r}
+nrow(pop1)
+nrow(pop.meta1)
+
+```
+
+
+#### f)
+```{r}
+merged <- merge(pop1, pop.meta1, by = "Country.Code", all = TRUE)
+
+missing_income <- sum(is.na(merged$`Income Group`))
+missing_region <- sum(is.na(merged$Region))
+
+cat("Number of observations in pop1 not in pop.meta1: ", missing_income, "\n")
+cat("Number of observations in pop.meta1 not in pop1: ", missing_region, "\n")
+
+```
+
+#### g)
+```{r}
+countries <- intersect(pop1$`Country.Name`, pop.meta1$`TableName`)
+
+pop2 <- pop1[pop1$`Country.Name`, ]
+pop.meta2 <- pop.meta1[pop.meta1$`TableName` , ]
+
+dim(pop2)
+dim(pop.meta2)
+
+```
+
+
+#### h)
+```{r}
+all(pop2$`CountryName` == pop.meta2$`TableName`)
+
+```
+
+#### i)
+```{r}
+countries <- c("Brazil", "India", "Nigeria", "United States", "Spain")
+indexes <- which(pop2$`Country.Name` %in% countries)
+indexes
+indexes1 <- which(pop1$`Country.Name` %in% countries)
+indexes1
+
+
+```
+#### j)
+```{r}
+write.csv(pop2, file = "pop2.csv", row.names = TRUE)
+
+write.csv(pop.meta2, file = "pop.meta2.csv", row.names = TRUE)
+
+```
+

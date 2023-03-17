@@ -1,0 +1,6 @@
+# pancake recipe
+
+ingredient;units;amount
+whole wheat flour;g;60.000
+brown rice flour;g;60.000
+salt;t;0.125

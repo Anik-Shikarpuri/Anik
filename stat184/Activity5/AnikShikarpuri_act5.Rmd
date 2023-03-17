@@ -1,0 +1,39 @@
+---
+title: "Activity 5"
+author: "Anik Shikarpuri"
+date: 2/19/2023
+output: html_notebook
+---
+
+### 1 ChickWeight:
+#### a)
+
+```{r}
+data("ChickWeight")
+head(ChickWeight)
+nrow(ChickWeight)
+# so in this data set we see that there are 4 variables. Weight, time, chick, and diet. The data has information on 578 different chicks. The two commands I used checks the start of the data set, so I can understand the data using "head". And I used nrow to check how large the data set is. 
+```
+#### b)
+```{r}
+unique(ChickWeight$Diet)
+
+```
+
+#### c)
+```{r}
+length(unique(ChickWeight$Chick))
+max(ChickWeight$weight)
+```
+
+#### d)
+```{r}
+library(dplyr)
+ChickWeight%>%group_by(Diet) %>%summarize(mean.weight = mean(weight))
+ChickWeight %>% group_by(Diet)%>%summarize(range.weight = max(weight) - min(weight))
+ChickWeight%>%group_by(Time)%>% summarize(mean.weight = mean(weight), range_weight = max(weight) - min(weight))
+ChickWeight%>%group_by(Diet) %>% summarize(num_of_chicks = length(unique(Chick)))
+ChickWeight%>%group_by(Chick)%>% summarize(num_of_measurements = n())
+
+```
+

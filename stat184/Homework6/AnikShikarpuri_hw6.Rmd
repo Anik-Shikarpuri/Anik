@@ -1,0 +1,166 @@
+---
+title: "Homework 6"
+author: "Anik Shikarpuri"
+date: 3/15/2023
+output: html_notebook
+---
+
+### 6.1)
+
+#### a) The labels and identifiers are indicated by the row and column headings of the chart. The rows are labeled as "Adhersion" and "Suspension," and the columns are labeled "0 min," "10 min," "30 min," and "60 min"
+
+#### b) No, the frames are not the same in each facet.The x-axis and y-axis scales are different in each facet which shows the different amounts of each substance for each condition.
+
+#### c)
+
+Scatter plot: This glyph depicts the amount of a substance in suspension. It is a series of dots, with each dot representing the amount of the substance at a particular time (0 min, 10 min, 30 min, or 60 min). The x-axis represents time, and the y-axis represents substance amount.
+
+Box Plot: This glyph is used to represent the distribution of a substance in suspension. It is a box-and-whisker plot in which the box represents the data's interquartile range, the whiskers represent the data's range , and the points represent outliers.
+
+Bar Chart:This glyph is used to represent the amount of a substance in adherent cells. It consists of a series of vertical bars, with each bar representing the amount of the substance in adherent cells at a given time (0 min, 10 min, 30 min, or 60 min). The x-axis represents time, and the y-axis represents substance amount.
+
+### 6.2)
+
+#### a) Graphical attributes:
+
+##### 1) X-axis : Shows how the variables are varying with respect to the Horizontal axis
+
+##### 2) Y-axis : Shows how the variables are varying with respect to the Vertical axis
+
+##### 3) Data points:Each data point on the graph provides the X and Y position values in the graph as well as information about the attributes it carries.
+
+##### 4) Target ranges: These are the variables chosen to classify a data point into a class/category.
+
+-   X or horizontal axis --\> gene
+
+-   Y or vertical axis --\> log Enzymes
+
+-   Data positions --\> Decided based on Gene and Log Enzyme values of each data points.
+
+-   Data attributes ---\> Flux, Molecule
+
+-   Target ranges --\> target variable
+
+#### b)
+
+The attributes that define a dot in a graph (or a data point) are known as graphical attributes of a dot; they show what properties a dot has or contains.
+
+Graphical attributes of a dot-
+
+Color: Depicts the class they belong to
+
+Dot Type: Depicts the second level of classification among points; for example, different types of dots can be used to represent different properties within the same first level classification.
+
+Size:Can be used to demonstrate the size differences between classes.
+
+Mapping:
+
+Color = The color of each data point in this graph indicates the type of molecule it belongs to, such as green for glucose.
+
+Dot type = In this graph, the dot type of each data point is used to categorize them into two groups: a) zero flux and b) positive flux. For example, a ring represents molecules with zero flux, and a filled dot represents molecules with positive flux.
+
+Size = There is little difference in the size of the data points here, indicating that all of the data points (or rather molecules) are nearly the same size.
+
+
+#### c)
+The variables "gene" (along the X axis) and "log enzymes" (along the Y axis) define the framework of the graph, as all data points are placed on the graph based solely on these variables.
+
+#### d)
+The combination of the variables "target" and "gene" determines the scaling of horizontal variables.
+
+
+
+----------------------------------------------------------------------------------------------
+
+
+
+```{r}
+install.packages("mosaicData")
+
+```
+```{r}
+library(mosaicData)
+
+  
+```
+### 8.1)
+
+##### a)
+
+```{r}
+library(ggplot2)
+data("CPS85")
+head(CPS85)
+CPS85 %>%
+ggplot(aes(x = wage)) + geom_density(aes(Fill = sex), alpha = 0.4) + 
+
+facet_grid( ~ married)
+
+```
+
+### 8.2)
+```{r}
+data("CPS85")
+head(CPS85)
+CPS85 %>%
+
+ggplot( aes(x = age, y = wage, color = factor(sex))) +
+  geom_line() +
+  labs(x = "Age", y = "Wage", color = "Sex") +
+  scale_color_manual(values = c("#1f77b4", "#dd7f0d")) +
+  theme_minimal()    
+
+```
+
+
+
+
+
+### 8.3)
+##### a)
+```{r}
+data("CPS85")
+head(CPS85)
+CPS85 %>%
+ggplot(aes(x = wage)) + geom_density(aes(Fill = sex), alpha = 0.4) +     geom_dotplot(binwidth = 1, dotsize = 0.5)
+
+
+
+```
+
+##### b)
+```{r}
+data(CPS85)
+ggplot(CPS85, aes(x = age, y = wage, shape = factor(sex))) +
+  geom_point(size = 3) +
+  scale_shape_manual(values = c(19, 17)) +
+  labs(x = "Age", y = "Wage", shape = "Sex") +
+  theme_classic()
++
+  
+```
+
+
+
+##### c)
+```{r}
+data("CPS85")
+head(CPS85)
+CPS85 %>%
+ggplot(aes(x = wage)) + geom_density(aes(Fill = sex), alpha = 0.4) +     geom_dotplot(binwidth = 1, dotsize = 0.7) +
+facet_grid( ~ married)
+
+```
+
+#### d)
+```{r}
+data(CPS85)
+ggplot(CPS85, aes(x = age, y = wage, shape = factor(married))) +
+  geom_point(size = 3) +
+  scale_shape_manual(values = c(19, 17)) +
+  labs(x = "Age", y = "Wage", shape = "Married") +
+  theme_classic()
+```
+
+
+

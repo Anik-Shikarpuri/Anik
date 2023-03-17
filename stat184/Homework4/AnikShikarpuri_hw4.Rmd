@@ -1,0 +1,139 @@
+---
+title: "Homework 4"
+author: "Anik Shikarpuri"
+date: 2/20/2023
+output: html_notebook
+---
+
+### 1. Reading
+
+#### a)
+```{r}
+# Data Tables -> 1. columns in a data table
+# Arguments  ->  4. tidy data with one or more variables
+# Functions  -> 3. objects that transform an input to an output; always followed immediately by an open parenthesis (a few exceptions)
+# Constants  -> 5. single values, most commonly a number or character string
+# Variables  -> 2. describe the details of what a function is to do
+
+```
+
+#### b)
+```{r}
+# == - 1. special type of function used to evaluate equality
+# %>% - 2. chaining operator
+# <- -3. assignment operator
+```
+
+#### c)
+```{r}
+# summarise( ) is a reduction function. - FALSE
+# group_by( ) should ALWAYS be followed by another data verb. - TRUE
+# When there is missing data (NA), reduction functions will automatically remove missing data by default and execute the proper calculation with the remaining data. -TRUE
+
+# ifelse( ) allows you to translate each value in a variable to one of two values, depending on the result of a comparison. - TRUE
+```
+
+### 2. Problem 3.6 (DC ebook)
+#### a)
+```{r}
+# data() does not take any arguments
+
+```
+#### b)
+```{r}
+#  data() returns a character string that represents the current date as text
+```
+
+### 3. Problem 7.1 (DC ebook)
+```{r}
+# a. reduction function
+# b. neither 
+# c. transformation function
+# d. transformation function
+# e. neither
+# f. reduction function
+# g. transformation function
+# h. transformation function
+
+```
+### 4. Problem 7.2 (DC ebook)
+
+```{r}
+library(dplyr)
+
+BabyNames <- read.table("../Data/babynames.txt", header=TRUE)
+head(BabyNames)
+```
+#### a)
+
+```{r}
+BabyNames %>% 
+  group_by('First') %>%
+  summarise(votesReceived = n())
+eval=FALSE
+# The problem here is that 'first' is not a group. Therefore it isn't grouping votes received with anything. You also should not be using '' inside (). So the way we could fix this by changing it to group_by(name), which would give the votes received by each name.
+
+```
+#### b) 
+```{r}
+Tmp <- group_by(BabyNames, year, sex) %>% 
+  summarise(Tmp, totalBirths = sum(count))
+eval=FALSE
+# The problem here is group_by() is not refereed to the data of BabyNames. So we would add BabyNames %>% right before group_by to fix this. We should also change sum(count) to n ().
+```
+#### c)
+
+```{r}
+Tmp <- group_by(BabyNames, year, sex) 
+summarise(BabyNames, totalBirths=sum(count))
+eval=FALSE
+# so same thing here group_by() is not refereed to the data of BabyNames. So we would add BabyNames %>% right before group_by to fix this.
+```
+### 5. airquality
+
+#### a)
+```{r}
+data("airquality")
+head(airquality)
+summary(airquality)
+# so for the air quality data it gives information on airquality with Solar.R meaning solar radiation. I used head() to see a small portion of the data to understand is variables. And I used summary() to give the distribution of each variable.
+```
+#### b)
+```{r}
+airquality %>% 
+summarise(mean.temperature = mean(Temp, na.rm = TRUE))
+
+```
+
+#### c)
+```{r}
+# How many measurements for each month?
+airquality %>%
+group_by(Month) %>%
+summarise(num_of_measurements = n())
+
+
+
+```
+
+```{r}
+#Compute the median Temperature for each month
+airquality %>%
+group_by(Month) %>%
+summarise(median_temperature = median(Temp, na.rm = TRUE))
+
+
+
+```
+```{r}
+# Find the maximum and minimum wind speed for each month.
+airquality %>%
+group_by(Month) %>%
+summarise(max.wind = max(Wind, na.rm = TRUE), min.wind = min(Wind, na.rm = TRUE))
+
+```
+
+
+
+
+

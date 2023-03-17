@@ -1,0 +1,116 @@
+---
+title: "Homework1"
+author: "Anik Shikarpuri"
+date: "2023-01-23"
+
+output: html_notebook
+---
+
+### 0. Setting working directory
+getwd()
+
+### 1. (4 pts) Use R as a calculator to find numeric answers to the following
+#### a) 
+```{r}
+1+2*(3+4)
+# The answer is 15
+```
+
+
+#### b) 
+```{r}
+4^3+3^2
+```
+#### c) 
+```{r}
+x= (4+3)*(2+1)
+y =sqrt(x)
+print(y)
+```
+
+
+#### d) 
+```{r}
+
+a= 1+2
+b= 3+4
+z= a/b
+z^2
+```
+
+
+
+
+### 2. (5 pts) Create the following sequences:
+
+#### a)
+```{r}
+rep('a',4)
+```
+
+#### b)
+
+```{r}
+odd_numbers <- seq(1:100)
+odd_numbers <- odd_numbers[odd_numbers %% 2 == 1]
+odd_numbers
+
+```
+#### c)
+
+```{r}
+sequenceC <- c(rep(2,3), rep(3,3), rep(4,3))
+sequenceC
+```
+
+#### d)
+```{r}
+sequenceD <- rep(c(2,3,4),2)
+sequenceD
+```
+
+
+#### e)
+```{r}
+my_sequenceD <- seq(0, 1000, by = 25)
+my_sequenceD
+```
+
+
+
+
+### 3. (2 pts) What happens when you mix types inside a vector?
+##### So what R does in this case is it tries to make all elements of the same type, after looking it up I found that this process is called coercion.
+```{r}
+x1 <- c(1.7, "a", FALSE)
+x2 <- c(TRUE, 2)
+class(x1)
+class(x2)
+
+```
+
+
+
+### 4. (6 pts) Object names:
+#### Some of these are legitimate object names, others are not. For the ones that are not legitimate, say what is wrong.
+
+##### a) essay14, This is legitimate
+##### b) first-essay, this is incorrect because you can not use hyphens "-" in your object name
+##### c) `MyData”, this is incorrect because you can not use quotes in your object name 
+##### d) small sample, incorrect because you can not have a space in your object name 
+##### e) .myData, this is correct 
+##### f) sqrt(), this is incorrect because this already a function
+
+
+### 5. (2 pts) Subsetting a vector
+
+```{r}
+bill <- c(46, 33, 39, 37, 46, 30, 48, 32, 49, 35, 30, 48)
+tail(bill,-1)
+bill[which(bill > 45)]
+```
+
+
+
+
+

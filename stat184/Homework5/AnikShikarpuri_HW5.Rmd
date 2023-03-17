@@ -1,0 +1,113 @@
+---
+title: "Homework 5"
+author: "Anik Shikarpuri"
+date: 2/26/2023
+output: html_notebook
+---
+
+### 2. Minneapolis2013.txt)
+
+
+```{r}
+library(dplyr)
+
+Minneapolis2013 <- read.table(
+'../Data/Minneapolis2013.txt', # name of the file to read
+header = TRUE, # whether the file contains the names of the colums at its first line
+sep = "\t", # separator
+skip = 0 # the number of lines of the data file to skip before beginning to read data
+)
+
+
+
+```
+
+#### a)
+```{r}
+unique_count <- n_distinct(Minneapolis2013$First)
+
+unique_count
+```
+#### b)
+```{r}
+betsy_count <- Minneapolis2013 %>% 
+                      filter(First == "BETSY HODGES") %>% 
+                      nrow()
+
+betsy_count
+```
+
+#### c)
+
+```{r}
+subset <- Minneapolis2013 %>% 
+          select(Precinct, First, Ward)
+
+head(subset, n = 3)
+```
+#### d)
+```{r}
+second_vote <- table(Minneapolis2013$Second)
+
+top_5 <- sort(second_vote, decreasing = TRUE)[1:5]
+
+top_5
+```
+
+#### e)
+```{r}
+undervote_count <- sum(Minneapolis2013$First == "undervote")
+
+undervote_count
+```
+#### f)
+```{r}
+vote_combinations <- table(paste(Minneapolis2013$First, Minneapolis2013$Second))
+top_3 <- sort(vote_combinations, decreasing = TRUE)[1:3]
+top_3
+```
+#### g)
+```{r}
+precinct_counts <- table(Minneapolis2013$Precinct)
+max_precinct <- names(precinct_counts)[which.max(precinct_counts)]
+
+max_precinct
+```
+
+#### h)
+```{r}
+same_choices <- sum(Minneapolis2013$First == Minneapolis2013$Second)
+
+same_choices
+```
+
+#### i)
+```{r}
+same_choices <- filter(Minneapolis2013, First == Second)
+same_counts <- table(same_choices$First)
+top_same <- names(sort(same_counts, decreasing=TRUE)[1:3])
+
+top_same
+
+```
+#### j)
+```{r}
+ole_savior <- filter(Minneapolis2013, First == "OLE SAVIOR")
+
+ole_savior_counts <- table(ole_savior$Second)
+
+top_second <- names(sort(ole_savior_counts, decreasing=TRUE)[1:3])
+
+top_second
+```
+#### k)
+```{r}
+first_choice_counts <- table(Minneapolis2013$First)
+
+minor_candidates <- names(first_choice_counts[first_choice_counts < 5000])
+Minneapolis2013$First[Minneapolis2013$First %in% minor_candidates] <- "minor"
+Minneapolis2013$Second[Minneapolis2013$Second %in% minor_candidates] <- "minor"
+```
+
+
+

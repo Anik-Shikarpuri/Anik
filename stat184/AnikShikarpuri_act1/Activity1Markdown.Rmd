@@ -1,0 +1,30 @@
+---
+title: "Activity 1 for Markdown"
+author: "Anik Shikarpuri"
+date: "2023-01-13"
+output: html_document
+---
+
+
+# About myself: 
++ Hi my name is Anik Shikapuri, I am studying computational Data science and I am a junior.
++ I am very excited for this course because R is a required skill for many internships and jobs.I am currently looking for an internship and I know this class will provide me with the skill to get my foot in the door.
++ From this course I hope to learn the basics of R and be comfortable with the platform.
++ I have wokred with other programming languages such as pyhton,java, SQL and I have also worked with MongoDB
++ I use macOS
+
+## Simple code
+
+
+```{r}
+x= 1 
+y=2 
+z= x+y
+print(z)
+```
+# Image:
+![](https://th.bing.com/th/id/R.0a21ac0e0fe5817e6ba837869aa43dde?rik=r3L0blJcNrFeWQ&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f08%2fPenn-State-HD-Wallpaper.jpg&ehk=NIFdsrsofEBVH2GgpTpeBLfpP1LTZZwEJ1ANLhJ88jY%3d&risl=&pid=ImgRaw&r=0)
+
+# Differences noticed between Markdown and Notebook
+A difference I noticed between the notebook and the Markdown documents is the notebook allow you  to hide the code. The Notebook alos lets you the .Rmd file.
+
