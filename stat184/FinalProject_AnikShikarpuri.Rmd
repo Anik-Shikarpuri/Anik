@@ -1,0 +1,216 @@
+---
+title: "Final Project F1"
+author: "Anik Shikarpuri"
+date: 4/27/2023
+output: html_notebook
+---
+# F1 Research Project 
+![](https://cdn.racingnews365.com/_1800x945_crop_center-center_75_none/XPB_1139369_HiRes.jpg?v=1673947523)
+
+
+# Research question: Who are the best racecar drivers in the world?
+### - Why is this question important: F1 is the peak of human engineering and we need to analyze which drivers are pushing the boundaries. Since formula1 has been going on for so many years and there have been thousands of drivers it is hard to find who are the best drivers in the world. We will be finding who is considered the best driver and we can use that information to integrate the technology of their cars into road legal cars. Many advances in technologies in F1 are brought to normal cars. And if we can find which drivers are the best we can later analyze what their cars had that gave them the edge.  
+
+#### This is the link to where I got my data from: https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020
+#### - Who collected/maintains them?
+#### The data was collected by F1 so we know it is 100% accurate. F1 will update these after each race and season. 
+
+
+### To answer this question we will be looking at multiple factors:
+
+### 1) Which drivers have accumulated the most points
+
+### 2) Which drivers have won the most races in correlation to points
+
+### 3) Which drivers have the fastest lap times
+
+### 4) How does this all connect and answer our main question
+
+------------------------------------------------------------------------
+
+## Let's start by looking at some datasets
+
+```{r}
+drivers <- read.table("../Final Project Data/F1DATA/drivers.csv", sep=",", header=TRUE)
+nrow(drivers)
+head(drivers)
+# The cases are the drivers. Each case has information on their number of driverId, number, lap times, nationality, birthday, and much more. In total there is 857 cases (drivers) 
+library(tidyr)
+
+
+```
+
+```{r}
+results <- read.table("../Final Project Data/F1DATA/results.csv", sep=",", header=TRUE)
+head(results)
+# this dataset shows a bunch of results on every race since 1950
+```
+
+#### I will be using two data sets The first one is called 'drivers' which has information on their driverId and other information such as their names and racing number. And the second data frame is called 'results' and in this data frame we also have the driverId variable which is how we will merge the two data sets. But it also has variables in things such as points and fastestLapTime.
+
+------------------------------------------------------------------------
+
+## Let us now answer the first subquestion: Which drivers have accumulated the most points?
+
+```{r}
+library(tidyr)
+
+new_results <- subset(results, select = c("raceId", "points"))
+sum_points <- aggregate(points ~ driverId, data = results, sum)
+merged_data <- merge(drivers, sum_points, by = "driverId")
+head(merged_data)
+driver_info <- subset(merged_data, select = c("surname", "points"))
+head(driver_info)
+
+```
+
+### Let's now look at a graph of the top drivers based on points:
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+top_10 <- driver_info %>% 
+  top_n(10, points) %>% 
+  arrange(desc(points))
+
+ggplot(top_10, aes(x = surname, y = points)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Driver", y = "Points", title = "Top 10 Drivers by Points")
+
+```
+
+### This answers our first subquestion. These are the best drivers based on points obtained. Points are given by where a driver finished in each race.So with this we can conclude that these drivers have obtained the most points compared to any other racers. Specifically we see that Lewis Hamilton has obtained the most points by far.
+
+------------------------------------------------------------------------
+
+## We will now answer subquestion 2: Which drivers have won the most races?
+
+```{r}
+drivers <- read.table("../Final Project Data/F1DATA/drivers.csv", sep=",", header=TRUE)
+results <- read.table("../Final Project Data/F1DATA/results.csv", sep=",", header=TRUE)
+
+filtered_q2 <- merge(drivers, results, by = "driverId", all.x = TRUE)
+filtered_data <- merged_data[merged_data$surname %in% c("Hamilton", "Alonso","Bottas","Button","Schumacher","Räikkönen","Rosberg","Vettel","Verstappen","Ricciardo"), ]
+
+# creates dataframe with top10 dirvers
+
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library("gridExtra")
+
+drivers <- read.table("../Final Project Data/F1DATA/drivers.csv", sep=",", header=TRUE)
+results <- read.table("../Final Project Data/F1DATA/results.csv", sep=",", header=TRUE)
+
+P1 <- merge(drivers, results, by = "driverId", all.x = TRUE)
+
+P1 %>% 
+filter(surname %in% c("Hamilton", "Vettel", "Alonso")) %>% 
+  arrange(surname, rank) %>% 
+  mutate(rank = factor(rank, levels = 1:20, ordered = TRUE)) %>% 
+  ggplot(aes(x = rank, fill = surname)) +
+  geom_density(alpha = 0.6) +
+  labs(x = "Driver Final Position", y = "Density", title = "Distribution of finishing position for Top 3 Drivers") +
+  scale_fill_manual(values = c("Hamilton" = "dodgerblue", "Vettel" = "red", "Alonso" = "orange")) +
+  theme_minimal() +
+  facet_grid(cols = vars(surname), scales = "free_x") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        panel.spacing = unit(0.5, "lines")) 
+```
+
+### So this graph shows the distribution of points for the top 3 drivers. Which shows us that in order to be the best they have to constantly be in the top 3 positions throughout every race.
+
+
+```{r}
+library(ggplot2)
+
+# create a data frame that sums the total points for each driver
+points_sum <- aggregate(points ~ surname, filtered_data, sum)
+
+# create a data frame that counts the number of times each driver finished in position 1
+position_1_count <- aggregate(position ~ surname, subset(filtered_q2, position == 1), length)
+
+# merge the two data frames by surname
+merged_points_position <- merge(points_sum, position_1_count, by='surname')
+
+# create a scatter plot of points vs. position 1 count, with labels and colors for each driver
+colors <- RColorBrewer::brewer.pal(108, "Set3")
+ggplot(data=merged_points_position, aes(x=points, y=position, label=surname)) + 
+  geom_point(aes(color=surname), size=3) +
+  geom_smooth(method="lm", se=FALSE, color="black") +
+  xlab("Total Points") +
+  ylab("Number of Times Finished in Position 1") +
+  ggtitle("Correlation between Points and First Place finishes ") +
+  scale_color_manual(values=colors)
+
+# calculate the correlation between points and position 1 count
+corr <- cor(merged_points_position$points, merged_points_position$position)
+cat("Correlation between Points and First Place finishes: ", corr)
+```
+
+### From this information we can come to the conclustion that there is a correlation between coming first and gaining points. So we can say that the more points a racer has the more likely it is that they have won more races.
+### corr = 0.7343084
+
+------------------------------------------------------------------------
+
+## Subquestion 3:
+
+Which drivers have the fastest lap times?
+
+```{r}
+library(dplyr)
+drivers <- read.table("../Final Project Data/F1DATA/drivers.csv", sep=",", header=TRUE)
+results <- read.table("../Final Project Data/F1DATA/results.csv", sep=",", header=TRUE)
+
+
+fastestLap_sum <- FLAP %>%
+  group_by(surname) %>%
+  summarize(total_fastestLap = sum(fastestLap, na.rm = TRUE)) %>%
+  arrange(desc(total_fastestLap)) %>%
+  top_n(10)
+fastestLap_sum
+```
+
+
+
+
+### The chart above shows the sum of every fastest lap obtained by the top 10 drivers. 
+```{r}
+library(dplyr)
+
+FLAP %>% 
+  select(surname, fastestLapSpeed) %>% 
+  pivot_longer(cols = c(surname, fastestLapSpeed), names_to = "variable", values_to = "value") %>%
+  head(10)
+# Let us look a into the data more and see what else we can find out about 
+
+```
+### The chart above shows the fastest speeds reached by Lewis Hamilton which is another factor we should consider on why he is so much better than everyone else. His car is much faster than the other racers. 
+```{r}
+library(dplyr)
+library(ggplot2)
+
+# Load the data
+drivers <- read.table("../Final Project Data/F1DATA/drivers.csv", sep=",", header=TRUE)
+results <- read.table("../Final Project Data/F1DATA/results.csv", sep=",", header=TRUE)
+
+ggplot(fastestLap_sum, aes(x = surname, y = total_fastestLap, size = total_fastestLap, color = surname)) +
+  geom_point() +
+  scale_size(range = c(2, 10)) +
+  labs(x = "Racer", y = "Fastest Lap Sum", title = "Top 10 Drivers by Fastest Lap Sum") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+### The chart above shows which drivers have the most fastest lap times. As we can see once again Hamilton is by far the leader when it comes to who has had the fastest lap times. 
+# Conclusion:
+
+So looking at all this information we can easily answer the main question. In part one we see who has accumulated the most points: Hamilton, Alonso, and Vettel. In part 2 we see there is a correlation between points and how many times a driver came in first place and once again we see the same names at the top of the chart. And lastly, in part 3 we see which driver has had the fastest lap times. And we see that Hamilton is much faster than everyone else. The hardest part about this research was finding a way to declare a driver "the best". I overcame this by using stats that are heavily influential and seeing who has obtained the most of these variables. A significant finding is who is the best driver ever. We can see that in all these charts that there is one outlier. Lewis Hamilton! So we can conclude that the best driver ever is Lewis Hamilton and we need to look into what made him so fast. And understand what technological advancements his car had over other racers.
+
+![](https://d3cm515ijfiu6w.cloudfront.net/wp-content/uploads/2020/01/29091238/Lewis-Hamilton-hand-on-heart-PA.jpg)
+
+
+
